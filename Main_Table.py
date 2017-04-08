@@ -10,8 +10,8 @@ print "Package Load"
 ############################################### Read ###################################################
 DIR = 'Tables/'
 EXT = '.npy'
-Table_Angle =  np.load(DIR+'Table_3D_Purged_Ms2_30sn_Normal_z_Angle_Proj'  +EXT)
-Table_Dir   =  np.load(DIR+'Table_3D_Purged_Ms2_30sn_Normal_z_Dir_Proj'  +EXT)
+Table_Angle =  np.load(DIR+'Table_3D_Purged_Ms2_30sn_Normal_z_Angle_Proj_jmod'  +EXT)
+Table_Dir   =  np.load(DIR+'Table_3D_Purged_Ms2_30sn_Normal_z_Dir_Proj_jmod'  +EXT)
 ##########################################################################################################
 
 def Get_Index_MC(A,amin,amax,NBin= 20):
@@ -36,13 +36,13 @@ def Unit_Vec(J):
 J_old = np.array([0.9,-0.1,0]) #Example angular momentum
 J     = np.array([1,0,0])     #Example angular momentum
 
-log_dm   = -2    # log(dm/M)
-dlogMC   = 0.2   # d log Mc
+log_dm   = -1.5    # log(dm/M)
+dlogMs   = 0.2   # d log M*
 log_M    = 12    # log(M/h^-1 Msun)
 
 i_dm     = Get_Index_MC(log_dm, -3.,0.)
 i_Mc     = Get_Index_MC(log_M, 11.,14.5)
-i_M     = Get_Index_MC(dlogMC, 0,0.7)
+i_M     = Get_Index_MC(dlogMs, 0,0.5)
 
 #ind1,ind2,ind3 = Get_Closer_Usefull_ID_3D(i_dm,i_Mc,i_M)
 ind1,ind2,ind3 = i_dm,i_Mc,i_M
@@ -51,8 +51,8 @@ Angle = Table_Angle[i_dm][i_Mc][i_M]
 DIR   = Table_Dir[i_dm][i_Mc][i_M]
 
 if Angle == -99 or DIR == -99:
-	print 'Careful, not information of at least one of the tables for the combination of dm,dlogMC,M. Consider using Get_Closer_Usefull_ID_3D()'
-#	When we create the tables, if we did not have any data for the combination of dm,dlogMC,M we set the tables to be -99
+	print 'Careful, not information of at least one of the tables for the combination of dm,dlogMs,M. Consider using Get_Closer_Usefull_ID_3D()'
+#	When we create the tables, if we did not have any data for the combination of dm,dlogMs,M we set the tables to be -99
 #	Get_Closer_Usefull_ID_3D() looks for a non-extreme neighbor (with a lower value of i_dm,i_MC and i_M)
 else:
 	print 'Change of Angle (degrees): ','%.3f' % (np.arccos(Angle)*180./np.pi)
